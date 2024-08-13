@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:image_picker/image_picker.dart';
 
 void main() {
@@ -34,11 +35,16 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreenState extends State<HomePageScreen> {
   File? image;
   late ImagePicker imagePicker;
+  late ImageLabeler labeler;
+  String results = "";
 
   @override
   void initState() {
-    imagePicker = ImagePicker();
     super.initState();
+    imagePicker = ImagePicker();
+    final ImageLabelerOptions options =
+        ImageLabelerOptions(confidenceThreshold: 0.5);
+    labeler = ImageLabeler(options: options);
   }
 
   void chooseImage() async {
@@ -46,6 +52,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
         await imagePicker.pickImage(source: ImageSource.gallery);
     if (selectedImage != null) {
       setState(() => image = File(selectedImage.path));
+      performImageLabeling();
     }
   }
 
@@ -54,7 +61,28 @@ class _HomePageScreenState extends State<HomePageScreen> {
         await imagePicker.pickImage(source: ImageSource.camera);
     if (capturedImage != null) {
       setState(() => image = File(capturedImage.path));
+      performImageLabeling();
     }
+  }
+
+  Future<void> performImageLabeling() async {
+    results = "";
+
+    InputImage inputImage = InputImage.fromFile(image!);
+
+    final List<ImageLabel> labels = await labeler.processImage(inputImage);
+
+    for (ImageLabel label in labels) {
+      final String text = label.label;
+      final int index = label.index;
+      final double confidence = label.confidence;
+
+      debugPrint(text + "  " + confidence.toString());
+
+      results += text + "     " + confidence.toStringAsFixed(2) + "\n";
+    }
+
+    setState(() => results);
   }
 
   @override
@@ -64,19 +92,22 @@ class _HomePageScreenState extends State<HomePageScreen> {
         title: const Text('Fruit Detection'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            image == null
-                ? const Icon(Icons.image_outlined, size: 54)
-                : Image.file(image!),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => chooseImage(),
-              onLongPress: () => captureImage(),
-              child: const Text('Choose/Capture Image'),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              image == null
+                  ? const Icon(Icons.image_outlined, size: 54)
+                  : Image.file(image!),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => chooseImage(),
+                onLongPress: () => captureImage(),
+                child: const Text('Choose/Capture Image'),
+              ),
+              Text(results),
+            ],
+          ),
         ),
       ),
     );
