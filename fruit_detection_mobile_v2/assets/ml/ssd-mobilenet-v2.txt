@@ -1,0 +1,30 @@
+Banyak Anak-Anak
+Dilarang Belok Kanan
+Dilarang Berhenti
+Dilarang Berjalan Terus
+Dilarang Masuk
+Dilarang Mendahului
+Dilarang Parkir
+Dilarang Putar Balik
+Gereja
+Hati-Hati
+Jalur Penyebrangan
+Lampu Lalu Lintas
+Larangan Kecepatan - 30km-jam
+Larangan Kecepatan - 40km-jam
+Larangan Kendaraan MST - 10 Ton
+Masjid
+Pemberhentian Bus
+Perintah Ikuti Bundaran
+Perintah Jalur Sepeda
+Perintah Lajur Kiri
+Perintah Pilih Satu Jalur
+Persimpangan 3 Prioritas
+Persimpangan 3 Sisi Kanan Prioritas
+Persimpangan 3 Sisi Kiri Prioritas
+Persimpangan Empat
+Putar Balik
+Rumah Sakit
+SPBU
+Tempat Parkir
+Balai Pertolongan Pertama
