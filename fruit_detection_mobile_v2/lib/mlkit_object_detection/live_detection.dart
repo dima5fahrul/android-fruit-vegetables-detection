@@ -142,11 +142,12 @@ class _LiveDetectionState extends State<LiveDetection> {
   }
 
   Future<void> _loadModel() async {
-    final modelPath = await _getModelPath('assets/ml/model.tflite');
+    final modelPath =
+        await _getModelPath('assets/ml/model_4_labels_from_kaggle.tflite');
     final options = LocalObjectDetectorOptions(
         mode: DetectionMode.stream,
         modelPath: modelPath,
-        confidenceThreshold: 0.8,
+        confidenceThreshold: 0.9,
         multipleObjects: true,
         classifyObjects: true);
 

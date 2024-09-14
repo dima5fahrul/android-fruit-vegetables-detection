@@ -23,6 +23,13 @@ class _LiveDetectionState extends State<LiveClassification> {
   late ImageLabeler imageLabeler;
 
   @override
+  void dispose() {
+    controller.dispose();
+    imageLabeler.close();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     // imageLabeler =
@@ -153,9 +160,10 @@ class _LiveDetectionState extends State<LiveClassification> {
   }
 
   loadModel() async {
-    final modelPath = await getModelPath('assets/ml/model_metadata.tflite');
+    final modelPath =
+        await getModelPath('assets/ml/model_4_labels_from_kaggle.tflite');
     final options =
-        LocalLabelerOptions(confidenceThreshold: 0.8, modelPath: modelPath);
+        LocalLabelerOptions(confidenceThreshold: 0.9, modelPath: modelPath);
     imageLabeler = ImageLabeler(options: options);
   }
 
